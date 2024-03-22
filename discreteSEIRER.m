@@ -1,0 +1,19 @@
+function x=discreteSEIRER(pre_x,t)
+  al=1;
+  gam=0.5;
+  mu=0.5;
+  N=1e6;
+  pre_S=pre_x(1);
+  pre_E=pre_x(2);
+  pre_I=pre_x(3);
+  pre_R=pre_x(4);
+  pre_Ne = Ne(end);
+  Ne_Ti = Ne(length(Ne) - Ti);
+  Ne_Tr = Ne(length(Ne) - Tr)
+  S = pre_S - pre_Ne;
+  E = pre_E + pre_Ne - Ne_Ti;
+  I = pre_I + Ne_Ti - Ne_Tr ;
+  R = pre_R + Ne_Tr;
+  Ne = [Ne (R0/Tr-Ti)*(I*S)/N]
+  x=[S;E;I;R;Ne];
+end
