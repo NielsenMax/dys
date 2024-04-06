@@ -14,15 +14,21 @@ function x=discreteSEIRER(pre_x,t)
 
   Ne = pre_x(5:end);
   pre_Ne = Ne(t);
-  Ne_Ti = Ne(max(t - Ti, 1));
-  Ne_Tr = Ne(max(t - Tr, 1));
+  Ne_Ti = 0;
+  if t - Ti > 0
+    Ne_Ti = Ne(t - Ti);
+  end
+  Ne_Tr = 0;
+  if t - Tr > 0
+    Ne_Tr = Ne(t - Tr);
+  end
 
   S = pre_S - pre_Ne;
   E = pre_E + pre_Ne - Ne_Ti;
   I = pre_I + Ne_Ti - Ne_Tr ;
   R = pre_R + Ne_Tr;
 
-  temp = (R0/Tr-Ti)*(I*S/N)
+  temp = (R0/(Tr-Ti))*(I*S/N);
   Ne(t+1) = temp;
   x=[S;E;I;R;Ne];
 end
