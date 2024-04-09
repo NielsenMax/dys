@@ -1,7 +1,7 @@
 model DiscreteSEIRER
   parameter Real N = 1e6;
-  discrete Real S(start = N), I(start = 10), E, R;
-  parameter Real alpha = 1, gamma = 0.5, mu = 0.5, R0 = 1.5;
+  discrete Real S(start = N), I(start = 1000), E(start=0), R(start=0);
+  parameter Real R0 = 1.5;
   parameter Integer Ti = 3, Tr = 12;
   Real Ne[Tr];
   Real Ne_i, Ne_Ti, Ne_Tr;
