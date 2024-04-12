@@ -1,0 +1,50 @@
+Root-Coordinator
+ {
+  Simulator
+   {
+    Path = mands/source.h
+    Parameters = 0.000000e+00,1.000000e+00,1.000000e+00
+   }
+  Simulator
+   {
+    Path = sinks/gnuplot.h
+    Parameters = 2.000000e+00,"set xrange [0:%tf] @ set grid @ set title 'Tasks'","with impulses title 'Processor'","with impulses title 'Source'","with steps title 'Sensor'","",""
+   }
+  Simulator
+   {
+    Path = mands/processor.h
+    Parameters = 
+   }
+  Simulator
+   {
+    Path = mands/queue.h
+    Parameters = 
+   }
+  Simulator
+   {
+    Path = mands/sensor.h
+    Parameters = 
+   }
+  Simulator
+   {
+    Path = sinks/gnuplot.h
+    Parameters = 1.000000e+00,"set xrange [0:%tf] @ set grid @ set title 'Number of Event'","with steps title 'Sensor'","","","",""
+   }
+  EIC
+   {
+   }
+  EOC
+   {
+   }
+  IC
+   {
+    (3,0);(2,0)
+    (4,0);(5,0)
+    (0,0);(3,0)
+    (0,0);(4,0)
+    (0,0);(1,1)
+    (2,0);(4,1)
+    (2,0);(3,1)
+    (2,0);(1,0)
+   }
+ }
