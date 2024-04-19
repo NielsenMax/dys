@@ -1,6 +1,6 @@
-//CPP:mands/source.cpp
-#if !defined source_h
-#define source_h
+//CPP:mands/filter.cpp
+#if !defined filter_h
+#define filter_h
 
 #include "simulator.h"
 #include "event.h"
@@ -8,22 +8,20 @@
 
 
 
-class source: public Simulator { 
+class filter: public Simulator { 
 // Declare the state,
 // output variables
 // and parameters
 
-// state
-double z, sigma;
+// State
+double p;
+double w;
+double sigma;
 
-// output
+// Output
 double y;
-
-// params
-double j_min, j_max, t_max;
-
 public:
-	source(const char *n): Simulator(n) {};
+	filter(const char *n): Simulator(n) {};
 	void init(double, ...);
 	double ta(double t);
 	void dint(double);

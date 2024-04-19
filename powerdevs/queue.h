@@ -1,4 +1,4 @@
-//CPP:/home/tc13/mands/powerdevs/queue.cpp
+//CPP:mands/queue.cpp
 #if !defined queue_h
 #define queue_h
 

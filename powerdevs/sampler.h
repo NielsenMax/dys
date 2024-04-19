@@ -1,6 +1,6 @@
-//CPP:mands/source.cpp
-#if !defined source_h
-#define source_h
+//CPP:mands/sampler.cpp
+#if !defined sampler_h
+#define sampler_h
 
 #include "simulator.h"
 #include "event.h"
@@ -8,22 +8,25 @@
 
 
 
-class source: public Simulator { 
+class sampler: public Simulator { 
 // Declare the state,
 // output variables
 // and parameters
 
-// state
-double z, sigma;
+//State
 
-// output
+double z;
+double sigma;
+
+//output
+
 double y;
 
-// params
-double j_min, j_max, t_max;
 
+//parameters
+double T;
 public:
-	source(const char *n): Simulator(n) {};
+	sampler(const char *n): Simulator(n) {};
 	void init(double, ...);
 	double ta(double t);
 	void dint(double);

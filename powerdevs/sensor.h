@@ -1,4 +1,4 @@
-//CPP:/home/tc13/mands/powerdevs/sensor.cpp
+//CPP:mands/sensor.cpp
 #if !defined sensor_h
 #define sensor_h
 

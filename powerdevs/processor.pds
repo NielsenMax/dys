@@ -8,7 +8,7 @@ Root-Coordinator
   Simulator
    {
     Path = sinks/gnuplot.h
-    Parameters = 2.000000e+00,"set xrange [0:%tf] @ set grid @ set title 'Tasks'","with impulses title 'Processor'","with impulses title 'Source'","with steps title 'Sensor'","",""
+    Parameters = 2.000000e+00,"set xrange [0:%tf] @ set grid @ set title 'Tasks'","with impulses title 'Processor'","with impulses title 'Source'","with impulses title 'Rejected'","",""
    }
   Simulator
    {
@@ -28,8 +28,50 @@ Root-Coordinator
   Simulator
    {
     Path = sinks/gnuplot.h
-    Parameters = 1.000000e+00,"set xrange [0:%tf] @ set grid @ set title 'Number of Event'","with steps title 'Sensor'","","","",""
+    Parameters = 2.000000e+00,"set xrange [0:%tf] @ set grid @ set title 'Number of Event'","with steps title 'Sensor'","with impulses title 'Descarted'","","",""
    }
+  Simulator
+   {
+    Path = mands/filter.h
+    Parameters = 
+   }
+  Simulator
+   {
+    Path = mands/sampler.h
+    Parameters = 1.000000e+00
+   }
+    Coordinator
+     {
+      Simulator
+       {
+        Path = mands/e.h
+        Parameters = 1.000000e+01
+       }
+      Simulator
+       {
+        Path = mands/x.h
+        Parameters = 
+       }
+      Simulator
+       {
+        Path = mands/p.h
+        Parameters = 2.000000e-02,1.000000e-03
+       }
+      EIC
+       {
+        (0,0);(0,0)
+       }
+      EOC
+       {
+        (2,0);(0,0)
+       }
+      IC
+       {
+        (1,0);(2,1)
+        (0,0);(2,0)
+        (0,0);(1,0)
+       }
+     }
   EIC
    {
    }
@@ -39,12 +81,17 @@ Root-Coordinator
   IC
    {
     (3,0);(2,0)
-    (4,0);(5,0)
-    (0,0);(3,0)
-    (0,0);(4,0)
-    (0,0);(1,1)
+    (6,1);(5,1)
+    (4,0);(7,0)
+    (7,0);(8,0)
     (2,0);(4,1)
     (2,0);(3,1)
     (2,0);(1,0)
+    (0,0);(1,1)
+    (0,0);(6,0)
+    (6,0);(4,0)
+    (6,0);(3,0)
+    (8,0);(5,0)
+    (8,0);(6,1)
    }
  }

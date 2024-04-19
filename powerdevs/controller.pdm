@@ -1,0 +1,151 @@
+Coupled
+    {
+    Type = Root
+    Name = controller
+    Ports = 1; 1
+    Description = 
+    Graphic
+        {
+        Position = 0; 0
+        Dimension = 600; 600
+        Direction = Right
+        Color = 15
+        Icon = 
+        Window = 5000; 5000; 5000; 5000
+        }
+    Parameters
+        {
+        }
+    System
+        {
+        Inport
+            {
+            Name = Inport0
+            CoupledPort = 1
+            Description = 
+            Graphic
+                {
+                Position = -8040 ; -2400
+                Dimension = 480
+                Direction = Right
+                }
+            }
+        Outport
+            {
+            Name = Outport0
+            CoupledPort = 1
+            Description = 
+            Graphic
+                {
+                Position = 210 ; -2625
+                Dimension = 480
+                Direction = Right
+                }
+            }
+        Atomic
+            {
+            Name = e
+            Ports = 1 ; 1
+            Path = mands/e.h
+            Description = Atomic DEVS model
+            Graphic
+                {
+                Position = -6105 ; -2760
+                Dimension = 675 ; 720
+                Direction = Right
+                Color = 15
+                Icon = None
+                }
+            Parameters
+                {
+                l_ref = Val; 50 ; 
+                }
+            }
+        Atomic
+            {
+            Name = x
+            Ports = 1 ; 1
+            Path = mands/x.h
+            Description = Atomic DEVS model
+            Graphic
+                {
+                Position = -3930 ; -2460
+                Dimension = 675 ; 720
+                Direction = Right
+                Color = 15
+                Icon = None
+                }
+            Parameters
+                {
+                }
+            }
+        Atomic
+            {
+            Name = p
+            Ports = 2 ; 1
+            Path = mands/p.h
+            Description = Atomic DEVS model
+            Graphic
+                {
+                Position = -1980 ; -2955
+                Dimension = 675 ; 675
+                Direction = Right
+                Color = 15
+                Icon = None
+                }
+            Parameters
+                {
+                k1 = Val; 0.02 ; 
+                k2 = Val; 0.001 ; 
+                }
+            }
+        Point
+            {
+            ConectedLines = 2 ; 3 ; 4
+            ConectedExtrems = Org ; Org ; Org
+            Position = -4575 ; -2475
+            }
+        Line
+            {
+            Source = Prt ;  1 ;  1 ; 0
+            Sink = Cmp ;  1 ;  1 ; -1
+            PointX = -7425 ; -7425 ; -6240
+            PointY = -2400 ; -2400 ; -2400
+            }
+        Line
+            {
+            Source = Cmp ;  1 ;  1 ; 0
+            Sink = Pnt ;  1 ; -1 ; 0
+            PointX = -5325 ; -5325 ; -4575
+            PointY = -2400 ; -2475 ; -2475
+            }
+        Line
+            {
+            Source = Cmp ;  3 ;  1 ; -1
+            Sink = Pnt ;  1 ; -1 ; 0
+            PointX = -2115 ; -4575 ; -4575
+            PointY = -2775 ; -2775 ; -2475
+            }
+        Line
+            {
+            Source = Pnt ;  1 ; -1 ; 0
+            Sink = Cmp ;  2 ;  1 ; -1
+            PointX = -4575 ; -4065 ; -4065
+            PointY = -2475 ; -2475 ; -2100
+            }
+        Line
+            {
+            Source = Cmp ;  2 ;  1 ; 0
+            Sink = Cmp ;  3 ;  2 ; -1
+            PointX = -3150 ; -2115 ; -2115
+            PointY = -2100 ; -2100 ; -2475
+            }
+        Line
+            {
+            Source = Cmp ;  3 ;  1 ; 0
+            Sink = Prt ;  2 ;  1 ; -1
+            PointX = -1200 ; -1200 ; 60
+            PointY = -2625 ; -2625 ; -2625
+            }
+        }
+    }

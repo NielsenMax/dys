@@ -1,6 +1,6 @@
-//CPP:mands/source.cpp
-#if !defined source_h
-#define source_h
+//CPP:mands/e.cpp
+#if !defined e_h
+#define e_h
 
 #include "simulator.h"
 #include "event.h"
@@ -8,22 +8,19 @@
 
 
 
-class source: public Simulator { 
+class e: public Simulator { 
 // Declare the state,
 // output variables
 // and parameters
 
-// state
-double z, sigma;
+double sigma;
+double z;
 
-// output
 double y;
 
-// params
-double j_min, j_max, t_max;
-
+double l_ref;
 public:
-	source(const char *n): Simulator(n) {};
+	e(const char *n): Simulator(n) {};
 	void init(double, ...);
 	double ta(double t);
 	void dint(double);

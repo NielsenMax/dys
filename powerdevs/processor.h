@@ -1,4 +1,4 @@
-//CPP:/home/tc13/mands/powerdevs/processor.cpp
+//CPP:mands/processor.cpp
 #if !defined processor_h
 #define processor_h
 
