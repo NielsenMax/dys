@@ -79,37 +79,40 @@ end SliderCrank;
   end CheckValve;
 
   model System2
-  DSFLib.Hydraulics.Components.Tank tank annotation(
+  DSFLib.Hydraulics.Components.Tank tank(v(start = 1000))  annotation(
       Placement(transformation(origin = {2, 82}, extent = {{-10, -10}, {10, 10}})));
   DSFLib.Hydraulics.Components.ConstPress constPress annotation(
       Placement(transformation(origin = {-90, -64}, extent = {{-10, -10}, {10, 10}})));
   CheckValve checkValve annotation(
-      Placement(transformation(origin = {-48, -4}, extent = {{-10, -10}, {10, 10}})));
-  DSFLib.Hydraulics.Components.Valve valve annotation(
-      Placement(transformation(origin = {4, 48}, extent = {{-10, -10}, {10, 10}})));
+      Placement(transformation(origin = {-48, 0}, extent = {{-10, -10}, {10, 10}})));
+  DSFLib.Hydraulics.Components.Valve valve(RH = 1e7)  annotation(
+      Placement(transformation(origin = {4, 48}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   CheckValve checkValve1 annotation(
       Placement(transformation(origin = {60, 0}, extent = {{-10, -10}, {10, 10}})));
   equation
   connect(constPress.fluidPort, checkValve.fluidPort_b) annotation(
-      Line(points = {{-80, -64}, {-58, -64}, {-58, -4}}));
+      Line(points = {{-80, -64}, {-80, -62}, {-58, -62}, {-58, 0}}));
   connect(checkValve1.fluidPort_a, constPress.fluidPort) annotation(
       Line(points = {{70, 0}, {84, 0}, {84, -64}, {-80, -64}}));
   connect(checkValve.fluidPort_a, checkValve1.fluidPort_b) annotation(
-      Line(points = {{-38, -4}, {50, -4}, {50, 0}}));
+      Line(points = {{-38, 0}, {-38, -4}, {50, -4}, {50, 0}}));
   connect(valve.fluidPort_b, tank.fluidPort) annotation(
-      Line(points = {{-6, 48}, {-22, 48}, {-22, 72}, {2, 72}}));
+      Line(points = {{4, 58}, {-22, 58}, {-22, 72}, {2, 72}}));
   connect(valve.fluidPort_a, checkValve.fluidPort_a) annotation(
-      Line(points = {{14, 48}, {-9, 48}, {-9, 32}, {22, 32}, {22, 22}, {-38, 22}, {-38, -4}}));
-  end System2;
+      Line(points = {{4, 38}, {4, 32}, {22, 32}, {22, 22}, {-38, 22}, {-38, 0}}));
+  annotation(
+      Diagram);
+end System2;
 
   model HydraulicPump
+  parameter Real Ap(unit = "m2") = 0.001;
   SliderCrank sliderCrank annotation(
       Placement(transformation(origin = {0, 64}, extent = {{-10, -10}, {10, 10}})));
   CheckValve inCheckValve annotation(
       Placement(transformation(origin = {-48, 0}, extent = {{-10, -10}, {10, 10}})));
   CheckValve outCheckValve1 annotation(
       Placement(transformation(origin = {54, 0}, extent = {{-10, -10}, {10, 10}})));
-  DSFLib.MultiDomain.HydroMechanical.Components.PistonCylinder pistonCylinder(A = 0.001)  annotation(
+  DSFLib.MultiDomain.HydroMechanical.Components.PistonCylinder pistonCylinder(A = Ap)  annotation(
       Placement(transformation(origin = {4, 22}, extent = {{-10, -10}, {10, 10}})));
   DSFLib.Hydraulics.Interfaces.FluidPort fluidPort annotation(
       Placement(transformation(origin = {-100, 0}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {-100, 0}, extent = {{-10, -10}, {10, 10}})));
@@ -165,4 +168,36 @@ end HydraulicPump;
     connect(hydraulicPump.fluidPort1, valve.fluidPort_b) annotation(
       Line(points = {{0, 10}, {0, 60}, {50, 60}}));
   end System3;
+
+  model FinalSystem
+  HydraulicPump hydraulicPump annotation(
+      Placement(transformation(origin = {-20, 0},extent = {{-10, -10}, {10, 10}}, rotation = 90)));
+  DSFLib.Hydraulics.Components.Tank tank1(v(start = 0))  annotation(
+      Placement(transformation(origin = {20, 90}, extent = {{-10, -10}, {10, 10}})));
+  DSFLib.Hydraulics.Components.Valve valve(RH = 1e7) annotation(
+      Placement(transformation(origin = {60, 80}, extent = {{-10, -10}, {10, 10}})));
+  DSFLib.Hydraulics.Components.ConstPress constPress annotation(
+      Placement(transformation(origin = {88, 34}, extent = {{-10, -10}, {10, 10}}, rotation = 180)));
+  DSFLib.MultiDomain.ElectroMechanical.Components.DCMotor dCMotor(L = 1e-3, R = 0.1)  annotation(
+      Placement(transformation(origin = {-74, 0}, extent = {{-10, -10}, {10, 10}})));
+  DSFLib.Circuits.Components.ConstVolt constVolt(V = 48)  annotation(
+      Placement(transformation(origin = {-70, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 180)));
+  DSFLib.Hydraulics.Components.Tank tank(v(start = 100000000))  annotation(
+      Placement(transformation(origin = {-20, -80}, extent = {{-10, -10}, {10, 10}})));
+  equation
+    connect(hydraulicPump.fluidPort1, tank1.fluidPort) annotation(
+      Line(points = {{-20, 10}, {-20, 80}, {20, 80}}));
+    connect(constVolt.n, dCMotor.n) annotation(
+      Line(points = {{-80, 60}, {-80, 10}}));
+    connect(constVolt.p, dCMotor.p) annotation(
+      Line(points = {{-60, 60}, {-60, 10}, {-68, 10}}));
+    connect(dCMotor.flange, hydraulicPump.flange) annotation(
+      Line(points = {{-64, -2}, {-36, -2}, {-36, 0}, {-30, 0}}));
+    connect(valve.fluidPort_a, constPress.fluidPort) annotation(
+      Line(points = {{70, 80}, {78, 80}, {78, 34}}));
+    connect(tank1.fluidPort, valve.fluidPort_b) annotation(
+      Line(points = {{20, 80}, {50, 80}}));
+  connect(constPress.fluidPort, hydraulicPump.fluidPort) annotation(
+      Line(points = {{78, 34}, {78, -10}, {-20, -10}}));
+  end FinalSystem;
 end PumpingSystem;
