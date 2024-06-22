@@ -101,4 +101,68 @@ end SliderCrank;
   connect(valve.fluidPort_a, checkValve.fluidPort_a) annotation(
       Line(points = {{14, 48}, {-9, 48}, {-9, 32}, {22, 32}, {22, 22}, {-38, 22}, {-38, -4}}));
   end System2;
+
+  model HydraulicPump
+  SliderCrank sliderCrank annotation(
+      Placement(transformation(origin = {0, 64}, extent = {{-10, -10}, {10, 10}})));
+  CheckValve inCheckValve annotation(
+      Placement(transformation(origin = {-48, 0}, extent = {{-10, -10}, {10, 10}})));
+  CheckValve outCheckValve1 annotation(
+      Placement(transformation(origin = {54, 0}, extent = {{-10, -10}, {10, 10}})));
+  DSFLib.MultiDomain.HydroMechanical.Components.PistonCylinder pistonCylinder(A = 0.001)  annotation(
+      Placement(transformation(origin = {4, 22}, extent = {{-10, -10}, {10, 10}})));
+  DSFLib.Hydraulics.Interfaces.FluidPort fluidPort annotation(
+      Placement(transformation(origin = {-100, 0}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {-100, 0}, extent = {{-10, -10}, {10, 10}})));
+  DSFLib.Hydraulics.Interfaces.FluidPort fluidPort1 annotation(
+      Placement(transformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}})));
+  DSFLib.Mechanical.Rotational.Interfaces.Flange flange annotation(
+      Placement(transformation(origin = {0, 100}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {0, 100}, extent = {{-10, -10}, {10, 10}})));
+  DSFLib.Mechanical.Translational.Components.Fixed fixed annotation(
+      Placement(transformation(origin = {-22, 22}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
+  equation
+  connect(fluidPort, inCheckValve.fluidPort_b) annotation(
+      Line(points = {{-100, 0}, {-58, 0}}));
+  connect(flange, sliderCrank.rot_flange) annotation(
+      Line(points = {{0, 100}, {0, 64}}));
+  connect(sliderCrank.trans_flange, pistonCylinder.flange_b) annotation(
+      Line(points = {{6, 72}, {14, 72}, {14, 22}}));
+  connect(inCheckValve.fluidPort_a, pistonCylinder.fluidPort) annotation(
+      Line(points = {{-38, 0}, {0, 0}, {0, 14}}));
+  connect(pistonCylinder.fluidPort, outCheckValve1.fluidPort_b) annotation(
+      Line(points = {{0, 14}, {0, 0}, {26, 0}, {26, 1}, {44, 1}, {44, 0}}));
+  connect(outCheckValve1.fluidPort_a, fluidPort1) annotation(
+      Line(points = {{64, 0}, {100, 0}}));
+  connect(fixed.flange, pistonCylinder.flange_a) annotation(
+      Line(points = {{-22, 22}, {-6, 22}}));
+  annotation(
+      Icon(graphics = {Polygon(lineColor = {0, 0, 255}, pattern = LinePattern.None, fillPattern = FillPattern.VerticalCylinder, points = {{-48, -60}, {-72, -100}, {72, -100}, {48, -60}, {-48, -60}}), Rectangle(fillColor = {0, 127, 255}, fillPattern = FillPattern.HorizontalCylinder, extent = {{-100, 32}, {100, -32}}), Ellipse(fillColor = {26, 182, 199}, fillPattern = FillPattern.Sphere, extent = {{-80, 80}, {80, -80}}), Polygon(origin = {5, -3}, fillColor = {0, 170, 255}, fillPattern = FillPattern.Solid, points = {{-33, 51}, {49, 1}, {-33, -43}, {-33, 49}, {-33, 51}}), Rectangle(origin = {-63, 123}, rotation = 90, fillColor = {238, 238, 238}, fillPattern = FillPattern.HorizontalCylinder, extent = {{-83, -49}, {-23, -77}})}));
+end HydraulicPump;
+
+  model System3
+  PumpingSystem.HydraulicPump hydraulicPump annotation(
+      Placement(transformation(extent = {{-10, -10}, {10, 10}}, rotation = 90)));
+  DSFLib.Mechanical.Rotational.Components.Fixed fixed annotation(
+      Placement(transformation(origin = {-88, 0}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
+  DSFLib.Mechanical.Rotational.Components.ConstTorque constTorque annotation(
+      Placement(transformation(origin = {-50, 0}, extent = {{-10, -10}, {10, 10}})));
+  DSFLib.Mechanical.Rotational.Components.Inertia inertia annotation(
+      Placement(transformation(origin = {-30, 60}, extent = {{-10, -10}, {10, 10}})));
+  DSFLib.Hydraulics.Components.Valve valve(RH = 1e8)  annotation(
+      Placement(transformation(origin = {60, 60}, extent = {{-10, -10}, {10, 10}})));
+  DSFLib.Hydraulics.Components.ConstPress constPress annotation(
+      Placement(transformation(origin = {-20, -80}, extent = {{-10, -10}, {10, 10}})));
+  equation
+    connect(fixed.flange, constTorque.flange_a) annotation(
+      Line(points = {{-88, 0}, {-60, 0}}));
+    connect(inertia.flange, constTorque.flange_b) annotation(
+      Line(points = {{-40, 60}, {-40, 0}}));
+    connect(constTorque.flange_b, hydraulicPump.flange) annotation(
+      Line(points = {{-40, 0}, {-10, 0}}));
+    connect(constPress.fluidPort, hydraulicPump.fluidPort) annotation(
+      Line(points = {{-10, -80}, {0, -80}, {0, -10}}));
+    connect(valve.fluidPort_a, constPress.fluidPort) annotation(
+      Line(points = {{70, 60}, {80, 60}, {80, -80}, {-10, -80}}));
+    connect(hydraulicPump.fluidPort1, valve.fluidPort_b) annotation(
+      Line(points = {{0, 10}, {0, 60}, {50, 60}}));
+  end System3;
 end PumpingSystem;
