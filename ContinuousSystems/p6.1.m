@@ -6,24 +6,24 @@ function x_dev = dx(x, t, b)
   x_dev = [x(2); (F/m) - (k/m)*x(1) - (b/m)*x(2)];
 end
 
-% Par√°metros y condiciones iniciales
+% Par√?metros y condiciones iniciales
 m = 1;
 k = 1;
 F = 1;
 x0 = [1; 1];
-t0 = 0; 
-tf = 10; 
+t0 = 0;
+tf = 10;
 
 A = [0 1;-k/m -b/m];
 B = [0 F]';
 u = 1/m;
 
-b = 1; 
+b = 1;
 h_values = 0.01:0.1:2.5; % Valores de h a probar
 
-% Prueba valores de h hasta encontrar el m√°ximo estable
+% Prueba valores de h hasta encontrar el m√?ximo estable
 for h = h_values
-    [t, x] = beuler(@dx, x0, t0, tf, h, b);
+    [t, x] = feuler(@dx, x0, t0, tf, h);
     xa = ltiSolve(A,B,u,x0,t);
     % Comprobar estabilidad
     if norm(x - xa, 1) < 1;
